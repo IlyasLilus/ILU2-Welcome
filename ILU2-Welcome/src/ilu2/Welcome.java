@@ -13,4 +13,18 @@ public class Welcome {
 		}
 		return chaine.toString();
 	}
+
+	private static String EX_4(String input) {
+		//utiliser split(,) pour avoir un tableau avec les deux noms
+		//les traiter individuellement
+		//dans un StringBuilder 
+		//puis faire un appel dans welcome en returnant la chaine
+		//pour savoir si il y a plusieurs noms, faire
+		//une méthode qui détecte la présence d'une virgule dans la chaine
+		//qui pourra être utilisé dans d'autres exos.
+		
+	}
+
+
 }
+
