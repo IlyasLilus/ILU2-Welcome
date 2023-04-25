@@ -9,20 +9,31 @@ public class Welcome {
 		}else if(input.equals(input.toUpperCase())) {
 			chaine.append("HELLO, "+input+" !");
 		}else if(input.contains(",")) {
-			String[] tab = EX_4(input);
-			chaine.append("Hello, "+tab[0].substring(0,1).toUpperCase()+tab[0].substring(1)+", "+tab[1].substring(0,1).toUpperCase()+tab[1].substring(1));
-		
+			String Noms = plusieursNoms(input);
+			chaine.append("Hello, "+Noms);
+			System.out.println(chaine);
 		}else {
-			chaine.append("Hello, "+input.substring(0, 1).toUpperCase()+input.substring(1));
+			chaine.append("Hello, "+lettresCapitale(input));
 		}
 		return chaine.toString();
 	}
 
-	private static String[] EX_4(String input) {
+	private static String plusieursNoms(String input) {
+		StringBuilder plusieursNom = new StringBuilder();
 		String[] tab = input.split(",");
-		return tab;
+		for (int i = 0; i < tab.length-1; i++) {
+			plusieursNom.append(lettresCapitale(tab[i])+", ");
+		}
+		plusieursNom.append(lettresCapitale(tab[tab.length-1]));
+		return plusieursNom.toString();
 	}
-
+	
+	private static String lettresCapitale(String input) {
+		if(input.substring(0,1).equals(" ")) {
+			return input.substring(1, 2).toUpperCase()+input.substring(2);
+		}
+		return input.substring(0, 1).toUpperCase()+input.substring(1);
+	}
 
 }
 
