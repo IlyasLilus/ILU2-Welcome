@@ -4,20 +4,23 @@ public class Welcome {
 	public static String welcome(String input) {
 		StringBuilder chaine = new StringBuilder();
 		input = input.trim();
-		if(input.isEmpty()) {
+		String inputDeb = input.substring(0, input.length()-dernier(input));
+		String inputFin = input.substring(input.length()-dernier(input));
+		if(inputDeb.isEmpty()) {
 			chaine.append("Hello, my friend");
-		}else if(input.equals(input.toUpperCase())) {
-			chaine.append(Majuscules(input));
-		}else if(input.contains(",")) {
-			String Noms = plusieursNoms(input);
+		}else if(inputDeb.equals(inputDeb.toUpperCase())) {
+			chaine.append(Majuscules(inputDeb));
+		}else if(inputDeb.contains(",")) {
+			String Noms = plusieursNoms(inputDeb);
 			chaine.append("Hello, "+Noms);
-			if(isMajuscules(input)) {
-				String nomMajs = nomMajuscules(input);
-				chaine.append(". AND HELLO, "+nomMajs);
+			if(isMajuscules(inputDeb)) {
+				String nomMajs = nomMajuscules(inputDeb);
+				chaine.append(". AND HELLO "+nomMajs);
 			}
 		}else {
-			chaine.append("Hello, "+lettresCapitale(input));
+			chaine.append("Hello, "+lettresCapitale(inputDeb));
 		}
+		chaine.append(" AND "+inputFin+" !");
 		return chaine.toString();
 	}
 
@@ -30,9 +33,9 @@ public class Welcome {
 					break;
 				}
 			}
-			plusieursNom.append(lettresCapitale(tab[i])+", ");
+			plusieursNom.append(tab[i]+" and ");
 		}
-		plusieursNom.append(lettresCapitale(tab[tab.length-1]));
+		plusieursNom.append(tab[tab.length-1]);
 		return plusieursNom.toString();
 	}
 	
@@ -68,11 +71,11 @@ public class Welcome {
 		}
 		if(tabMaj.length>1) {
 			for (int y=0; y < tabMaj.length-1;y++) {
-				CHAINE.append(lettresCapitale(tabMaj[y])+", ");
+				CHAINE.append(tabMaj[y]+", ");
 			}
-			CHAINE.append(lettresCapitale(tabMaj[tabMaj.length-1])+" !");
+			CHAINE.append(tabMaj[tabMaj.length-1]);
 		}else {
-			CHAINE.append(lettresCapitale(tabMaj[tabMaj.length-1])+" !");
+			CHAINE.append(tabMaj[tabMaj.length-1]);
 		}
 		return CHAINE.toString();
 	}
@@ -85,6 +88,11 @@ public class Welcome {
 			}
 		}
 		return false;
+	}
+	
+	private static int dernier(String input) {
+		String[] tab = input.split(",");
+		return tab[tab.length-1].length();
 	}
 }
 
