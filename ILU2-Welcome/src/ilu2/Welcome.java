@@ -7,11 +7,14 @@ public class Welcome {
 		if(input.isEmpty()) {
 			chaine.append("Hello, my friend");
 		}else if(input.equals(input.toUpperCase())) {
-			chaine.append("HELLO, "+input+" !");
+			chaine.append(Majuscules(input));
 		}else if(input.contains(",")) {
 			String Noms = plusieursNoms(input);
 			chaine.append("Hello, "+Noms);
-			System.out.println(chaine);
+			if(isMajuscules(input)) {
+				String nomMajs = nomMajuscules(input);
+				chaine.append(". AND HELLO, "+nomMajs);
+			}
 		}else {
 			chaine.append("Hello, "+lettresCapitale(input));
 		}
@@ -22,6 +25,11 @@ public class Welcome {
 		StringBuilder plusieursNom = new StringBuilder();
 		String[] tab = input.split(",");
 		for (int i = 0; i < tab.length-1; i++) {
+			if (tab[i]==tab[i].toUpperCase()) {
+				if (tab[i+1]==tab[tab.length-1]) {
+					break;
+				}
+			}
 			plusieursNom.append(lettresCapitale(tab[i])+", ");
 		}
 		plusieursNom.append(lettresCapitale(tab[tab.length-1]));
@@ -34,6 +42,49 @@ public class Welcome {
 		}
 		return input.substring(0, 1).toUpperCase()+input.substring(1);
 	}
-
+	
+	private static String Majuscules(String input) {
+		StringBuilder chaine = new StringBuilder();
+		chaine.append("HELLO, "+input+" !");
+		return chaine.toString();
+	}
+	
+	private static String nomMajuscules(String input) {
+		String[] tab = input.split(",");
+		int compteur=0;
+		StringBuilder CHAINE = new StringBuilder();
+		for (int i = 0; i < tab.length-1; i++) {
+			if(tab[i]==tab[i].toUpperCase()) {
+				compteur++;
+			}
+		}
+		String[] tabMaj = new String[compteur];
+		int j = 0;
+		for (int i = 0; i < tab.length-1; i++) {
+			if(tab[i]==tab[i].toUpperCase()) {
+				tabMaj[j]=tab[i];
+				j++;
+			}
+		}
+		if(tabMaj.length>1) {
+			for (int y=0; y < tabMaj.length-1;y++) {
+				CHAINE.append(lettresCapitale(tabMaj[y])+", ");
+			}
+			CHAINE.append(lettresCapitale(tabMaj[tabMaj.length-1])+" !");
+		}else {
+			CHAINE.append(lettresCapitale(tabMaj[tabMaj.length-1])+" !");
+		}
+		return CHAINE.toString();
+	}
+	
+	private static boolean isMajuscules(String input) {
+		String[] tab = input.split(",");
+		for (int i = 0; i < tab.length-1; i++) {
+			if(tab[i]==tab[i].toUpperCase()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
 
