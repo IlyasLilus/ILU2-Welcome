@@ -8,21 +8,19 @@ public class Welcome {
 			chaine.append("Hello, my friend");
 		}else if(input.equals(input.toUpperCase())) {
 			chaine.append("HELLO, "+input+" !");
+		}else if(input.contains(",")) {
+			String[] tab = EX_4(input);
+			chaine.append("Hello, "+tab[0].substring(0,1).toUpperCase()+tab[0].substring(1)+", "+tab[1].substring(0,1).toUpperCase()+tab[1].substring(1));
+		
 		}else {
 			chaine.append("Hello, "+input.substring(0, 1).toUpperCase()+input.substring(1));
 		}
 		return chaine.toString();
 	}
 
-	private static String EX_4(String input) {
-		//utiliser split(,) pour avoir un tableau avec les deux noms
-		//les traiter individuellement
-		//dans un StringBuilder 
-		//puis faire un appel dans welcome en returnant la chaine
-		//pour savoir si il y a plusieurs noms, faire
-		//une méthode qui détecte la présence d'une virgule dans la chaine
-		//qui pourra être utilisé dans d'autres exos.
-		
+	private static String[] EX_4(String input) {
+		String[] tab = input.split(",");
+		return tab;
 	}
 
 
