@@ -5,7 +5,7 @@ public class Welcome {
 	
 	public static String welcome(String input) {
 		StringBuilder chaine = new StringBuilder();
-		input = input.trim();
+		input = input.replace(" ", "").trim();
 		if(input.isEmpty()) {
 			chaine.append("Hello, my friend");
 		}else if(input.equals(input.toUpperCase())) {
@@ -26,6 +26,7 @@ public class Welcome {
 		}else {
 			chaine.append("Hello, "+lettresCapitale(input));
 		}
+		System.out.println(chaine);
 		return chaine.toString();
 	}
 
