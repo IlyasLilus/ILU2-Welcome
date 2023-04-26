@@ -1,43 +1,114 @@
 package ilu2;
 
 public class Welcome {
+	private static boolean dernierMaj = false;
+	
 	public static String welcome(String input) {
 		StringBuilder chaine = new StringBuilder();
 		input = input.trim();
-		String inputDeb = input.substring(0, input.length()-dernier(input));
-		String inputFin = input.substring(input.length()-dernier(input));
-		if(inputDeb.isEmpty()) {
+		if(input.isEmpty()) {
 			chaine.append("Hello, my friend");
-		}else if(inputDeb.equals(inputDeb.toUpperCase())) {
-			chaine.append(Majuscules(inputDeb));
-		}else if(inputDeb.contains(",")) {
-			String Noms = plusieursNoms(inputDeb);
-			chaine.append("Hello, "+Noms);
-			if(isMajuscules(inputDeb)) {
-				String nomMajs = nomMajuscules(inputDeb);
-				chaine.append(". AND HELLO "+nomMajs);
+		}else if(input.equals(input.toUpperCase())) {
+			chaine.append(Majuscules(input));
+		}else if(input.contains(",")) {
+			String[] majuscules = new String[0];
+			if(isMajuscules(input)) {
+				majuscules = separationMajuscules(input);
+			}
+			String[] minuscules = separationMinuscules(input);
+			if(majuscules.length == 0) {
+				String Noms = plusieursNomsMinuscules(minuscules);
+				chaine.append("Hello, "+Noms);
+			}else {
+				chaine.append("Hello, "+plusieursNomsMinuscules(minuscules)+".");
+				chaine.append(" AND HELLO "+plusieursNomsMajuscules(majuscules));
 			}
 		}else {
-			chaine.append("Hello, "+lettresCapitale(inputDeb));
+			chaine.append("Hello, "+lettresCapitale(input));
 		}
-		chaine.append(" AND "+inputFin+" !");
 		return chaine.toString();
 	}
 
-	private static String plusieursNoms(String input) {
-		StringBuilder plusieursNom = new StringBuilder();
-		String[] tab = input.split(",");
-		for (int i = 0; i < tab.length-1; i++) {
-			if (tab[i]==tab[i].toUpperCase()) {
-				if (tab[i+1]==tab[tab.length-1]) {
-					break;
-				}
+/*####################################################################*/
+	
+	private static String[] separationMajuscules(String input) {
+		String[] separer = input.split(",");
+		int compteur = 0;
+		for (int i = 0; i< separer.length;i++) {
+			if(lettresCapitale(separer[i]).equals(lettresCapitale(separer[i].toUpperCase()))) {
+				compteur++;
 			}
-			plusieursNom.append(tab[i]+" and ");
 		}
-		plusieursNom.append(tab[tab.length-1]);
-		return plusieursNom.toString();
+		if (compteur>=2) {
+			dernierMaj = true;
+		}
+		String[] majuscules = new String[compteur];
+		int j = 0;
+		for (int i = 0; i <= separer.length-1; i++) {
+			if(lettresCapitale(separer[i]).equals(lettresCapitale(separer[i].toUpperCase()))) {
+				majuscules[j]=separer[i];
+				j++;
+			}
+		}
+		return majuscules;
 	}
+	
+/*####################################################################*/
+	
+	private static String[] separationMinuscules(String input) {
+		String[] separer = input.split(",");
+		int compteur = 0;
+		for (int i = 0; i< separer.length;i++) {
+			if(lettresCapitale(separer[i]).equals(lettresCapitale(separer[i].toLowerCase()))) {
+				compteur++;
+			}
+		}
+		String[] minuscules = new String[compteur];
+		int y = 0;
+		for (int i = 0; i <= separer.length-1; i++) {
+			if(lettresCapitale(separer[i]).equals(lettresCapitale(separer[i].toLowerCase()))) {
+				minuscules[y]=separer[i];
+				y++;
+			}
+		}
+		return minuscules;
+	}
+	
+/*####################################################################*/
+	
+	private static String plusieursNomsMinuscules(String[] minuscules) {
+		StringBuilder plusieursNomMin = new StringBuilder();
+		for (int i = 0; i < minuscules.length-1; i++) {
+			plusieursNomMin.append(lettresCapitale(minuscules[i]));
+			if(minuscules[i]!=minuscules[minuscules.length-2]) {
+				plusieursNomMin.append(", ");
+			}
+		}
+		plusieursNomMin.append(" and ");
+		plusieursNomMin.append(lettresCapitale(minuscules[minuscules.length-1]));
+		return plusieursNomMin.toString();
+	}
+	
+/*####################################################################*/
+	
+	private static String plusieursNomsMajuscules(String[] majuscules) {
+		StringBuilder plusieursNomMaj = new StringBuilder();
+		for (int i = 0; i < majuscules.length-1; i++) {
+			plusieursNomMaj.append(lettresCapitale(majuscules[i]));
+			if(majuscules[i]!=majuscules[majuscules.length-2]) {
+				plusieursNomMaj.append(", ");
+			}
+		}
+		if(dernierMaj) {
+			plusieursNomMaj.append(" AND "+lettresCapitale(majuscules[majuscules.length-1])+" !");
+		}else {
+			plusieursNomMaj.append(lettresCapitale(majuscules[majuscules.length-1])+" !");
+		}
+		
+		return plusieursNomMaj.toString();
+	}
+	
+/*####################################################################*/
 	
 	private static String lettresCapitale(String input) {
 		if(input.substring(0,1).equals(" ")) {
@@ -46,11 +117,15 @@ public class Welcome {
 		return input.substring(0, 1).toUpperCase()+input.substring(1);
 	}
 	
+/*####################################################################*/
+	
 	private static String Majuscules(String input) {
 		StringBuilder chaine = new StringBuilder();
 		chaine.append("HELLO, "+input+" !");
 		return chaine.toString();
 	}
+
+/*####################################################################*/
 	
 	private static String nomMajuscules(String input) {
 		String[] tab = input.split(",");
@@ -71,15 +146,17 @@ public class Welcome {
 		}
 		if(tabMaj.length>1) {
 			for (int y=0; y < tabMaj.length-1;y++) {
-				CHAINE.append(tabMaj[y]+", ");
+				CHAINE.append(lettresCapitale(tabMaj[y])+", ");
 			}
-			CHAINE.append(tabMaj[tabMaj.length-1]);
+			CHAINE.append(lettresCapitale(tabMaj[tabMaj.length-1])+" !");
 		}else {
-			CHAINE.append(tabMaj[tabMaj.length-1]);
+			CHAINE.append(lettresCapitale(tabMaj[tabMaj.length-1])+" !");
 		}
 		return CHAINE.toString();
 	}
-	
+
+/*####################################################################*/
+
 	private static boolean isMajuscules(String input) {
 		String[] tab = input.split(",");
 		for (int i = 0; i < tab.length-1; i++) {
@@ -88,11 +165,6 @@ public class Welcome {
 			}
 		}
 		return false;
-	}
-	
-	private static int dernier(String input) {
-		String[] tab = input.split(",");
-		return tab[tab.length-1].length();
 	}
 }
 
