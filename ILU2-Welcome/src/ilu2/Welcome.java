@@ -26,7 +26,6 @@ public class Welcome {
 		}else {
 			chaine.append("Hello, "+lettresCapitale(input));
 		}
-		System.out.println(chaine);
 		return chaine.toString();
 	}
 
@@ -96,9 +95,6 @@ public class Welcome {
 		StringBuilder plusieursNomMaj = new StringBuilder();
 		for (int i = 0; i < majuscules.length-1; i++) {
 			plusieursNomMaj.append(lettresCapitale(majuscules[i]));
-			if(majuscules[i]!=majuscules[majuscules.length-2]) {
-				plusieursNomMaj.append(", ");
-			}
 		}
 		if(dernierMaj) {
 			plusieursNomMaj.append(" AND "+lettresCapitale(majuscules[majuscules.length-1])+" !");
@@ -112,9 +108,6 @@ public class Welcome {
 /*####################################################################*/
 	
 	private static String lettresCapitale(String input) {
-		if(input.substring(0,1).equals(" ")) {
-			return input.substring(1, 2).toUpperCase()+input.substring(2);
-		}
 		return input.substring(0, 1).toUpperCase()+input.substring(1);
 	}
 	
@@ -124,36 +117,6 @@ public class Welcome {
 		StringBuilder chaine = new StringBuilder();
 		chaine.append("HELLO, "+input+" !");
 		return chaine.toString();
-	}
-
-/*####################################################################*/
-	
-	private static String nomMajuscules(String input) {
-		String[] tab = input.split(",");
-		int compteur=0;
-		StringBuilder CHAINE = new StringBuilder();
-		for (int i = 0; i < tab.length-1; i++) {
-			if(tab[i]==tab[i].toUpperCase()) {
-				compteur++;
-			}
-		}
-		String[] tabMaj = new String[compteur];
-		int j = 0;
-		for (int i = 0; i < tab.length-1; i++) {
-			if(tab[i]==tab[i].toUpperCase()) {
-				tabMaj[j]=tab[i];
-				j++;
-			}
-		}
-		if(tabMaj.length>1) {
-			for (int y=0; y < tabMaj.length-1;y++) {
-				CHAINE.append(lettresCapitale(tabMaj[y])+", ");
-			}
-			CHAINE.append(lettresCapitale(tabMaj[tabMaj.length-1])+" !");
-		}else {
-			CHAINE.append(lettresCapitale(tabMaj[tabMaj.length-1])+" !");
-		}
-		return CHAINE.toString();
 	}
 
 /*####################################################################*/
@@ -168,4 +131,3 @@ public class Welcome {
 		return false;
 	}
 }
-
